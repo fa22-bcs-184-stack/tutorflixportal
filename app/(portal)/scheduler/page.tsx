@@ -222,31 +222,34 @@ export default function SchedulerDashboard() {
   // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex flex-col gap-7">
+    <div className="mx-auto flex w-full max-w-[1480px] flex-col gap-7">
 
       {/* ── Page header ── */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0">
-          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground mb-1">
-            Intro Scheduler
-          </p>
-          <h1 className="text-2xl font-bold tracking-tight text-foreground">
-            Pipeline Overview
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {isLoading ? 'Loading your leads…' : `${counts.total} leads · ${counts.followUp} follow-ups due · ${conversionRate}% conversion rate`}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" render={<Link href="/scheduler/trials" />}>
-            <Calendar className="size-3.5" />
-            Trials
-          </Button>
-          <Button size="sm" render={<Link href="/scheduler/leads" />}>
-            <Users className="size-3.5" />
-            Open Pipeline
-            <ArrowRight className="size-3.5" />
-          </Button>
+      <div className="relative overflow-hidden rounded-[1.75rem] border border-primary/15 bg-primary p-6 text-primary-foreground shadow-[0_18px_50px_-28px_oklch(0.45_0.2_245)] sm:p-8">
+        <div className="relative flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0">
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-primary-foreground/12 px-3 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary-foreground/80">
+              <span className="size-1.5 rounded-full bg-sky-200" />
+              Intro Scheduler
+            </div>
+            <h1 className="max-w-xl text-3xl font-bold tracking-[-0.03em] text-balance sm:text-4xl">
+              Keep every intro moving forward.
+            </h1>
+            <p className="mt-2 max-w-lg text-sm leading-6 text-primary-foreground/72">
+              {isLoading ? 'Loading your leads…' : `${counts.total} leads in your pipeline · ${counts.followUp} follow-ups due · ${conversionRate}% conversion rate`}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="secondary" size="sm" render={<Link href="/scheduler/trials" />}>
+              <Calendar className="size-3.5" />
+              Trials
+            </Button>
+            <Button className="bg-primary-foreground text-primary hover:bg-primary-foreground/90" size="sm" render={<Link href="/scheduler/leads" />}>
+              <Users className="size-3.5" />
+              Open pipeline
+              <ArrowRight className="size-3.5" />
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -320,7 +323,7 @@ export default function SchedulerDashboard() {
 
       {/* ── Stat cards ── */}
       <motion.div
-        className="grid grid-cols-2 gap-4 lg:grid-cols-4"
+        className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4"
         initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -359,7 +362,7 @@ export default function SchedulerDashboard() {
       </motion.div>
 
       {/* ── Pipeline funnel + quick actions ── */}
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(260px,0.75fr)]">
 
         {/* Funnel bar — 2/3 width */}
         <Panel
@@ -436,7 +439,7 @@ export default function SchedulerDashboard() {
           <div className="flex flex-col gap-3">
             {QUICK_ACTIONS.map(({ label, desc, href, Icon, accent }) => (
               <Link key={href} href={href}>
-                <div className="group flex items-start gap-4 rounded-2xl border border-border/60 bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md cursor-pointer">
+                <div className="group flex items-start gap-4 rounded-2xl border border-border/70 bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/[0.025] hover:shadow-lg cursor-pointer">
                   <div
                     className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl transition-all duration-200 group-hover:scale-105"
                     style={{

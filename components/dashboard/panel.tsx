@@ -40,9 +40,9 @@ export function Panel({
       {title && (
         <div className="flex items-start justify-between gap-3 px-6 pb-3 pt-6">
           <div className="min-w-0 flex-1">
-            <h3 className="text-[0.93rem] font-semibold tracking-tight text-slate-900">{title}</h3>
+            <h3 className="text-[0.93rem] font-semibold tracking-tight text-foreground">{title}</h3>
             {description && (
-              <p className="mt-0.5 text-[0.78rem] text-slate-600">{description}</p>
+              <p className="mt-0.5 text-[0.78rem] text-muted-foreground">{description}</p>
             )}
           </div>
           {action && <div className="shrink-0">{action}</div>}
