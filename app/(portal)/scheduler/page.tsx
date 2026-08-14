@@ -355,14 +355,13 @@ export default function SchedulerDashboard() {
         />
       </motion.div>
 
-      {/* ── Pipeline funnel + quick actions ── */}
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.65fr)_minmax(260px,0.75fr)]">
+      {/* ── Pipeline overview ── */}
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(320px,0.85fr)]">
 
-        {/* Funnel bar — 2/3 width */}
+        {/* Funnel bar — primary column */}
         <Panel
           title="Lead funnel"
           description="Distribution of leads across pipeline stages"
-          className="lg:col-span-2"
           action={
             <Button variant="ghost" size="sm" render={<Link href="/scheduler/leads" />}>
                 Full pipeline <ArrowRight className="size-3.5" />
