@@ -77,7 +77,7 @@ function NavLink({
       {item.badge && (
         <span
           className={cn(
-            "flex items-center justify-center rounded-full gradient-brand text-[0.55rem] font-bold text-white",
+            "flex items-center justify-center rounded-full bg-primary text-[0.55rem] font-bold text-white",
             compact
               ? "absolute right-1 top-1 size-3.5"
               : "relative h-[18px] min-w-[18px] px-1",
@@ -113,12 +113,12 @@ function SidebarBody({
         <motion.div
           whileHover={{ scale: 1.06 }}
           transition={{ type: "spring", stiffness: 400, damping: 20 }}
-          className="relative flex size-9 shrink-0 items-center justify-center rounded-2xl gradient-brand"
-          style={{ boxShadow: "0 0 0 1px oklch(0.64 0.20 268 / 0.3), 0 4px 20px oklch(0.44 0.22 268 / 0.35)" }}
+          className="relative flex size-9 shrink-0 items-center justify-center rounded-2xl bg-primary"
+          style={{ boxShadow: "0 0 0 1px oklch(0.65 0.20 248 / 0.3), 0 4px 20px oklch(0.44 0.22 248 / 0.35)" }}
         >
           <GraduationCap className="size-4.5 text-white" />
           {/* pulse ring */}
-          <div className="absolute inset-0 rounded-2xl gradient-brand opacity-40 animate-pulse-ring" />
+          <div className="absolute inset-0 rounded-2xl bg-primary opacity-40 animate-pulse-ring" />
         </motion.div>
 
         {!compact && (

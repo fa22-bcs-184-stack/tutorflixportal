@@ -40,7 +40,7 @@ export function ProfileDropdown() {
             className="flex size-8 items-center justify-center rounded-xl text-white text-xs font-bold shrink-0"
             style={{
               background:
-                'linear-gradient(135deg, var(--color-primary, hsl(221,90%,57%)), color-mix(in oklab, var(--color-primary, hsl(221,90%,57%)) 70%, hsl(260,80%,60%)))',
+                'linear-gradient(135deg, var(--color-primary, hsl(221,90%,57%)), color-mix(in oklab, var(--color-primary, hsl(221,90%,57%)) 70%, hsl(199,85%,62%)))',
             }}
           >
             {user.fullName

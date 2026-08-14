@@ -36,7 +36,7 @@ const STATUS_CONFIG: Record<
   LeadItem['status'],
   { label: string; accent: string; color: string }
 > = {
-  NEW:              { label: 'New',            accent: 'chart-5', color: 'bg-info-subtle text-info' },
+  NEW:              { label: 'New',            accent: 'chart-1', color: 'bg-info-subtle text-info' },
   CONTACTED:        { label: 'Contacted',      accent: 'chart-1', color: 'bg-primary/10 text-primary' },
   FOLLOW_UP:        { label: 'Follow Up',      accent: 'chart-4', color: 'bg-warning-subtle text-warning' },
   TRIAL_SCHEDULED:  { label: 'Trial Booked',   accent: 'chart-3', color: 'bg-success-subtle text-success' },
@@ -222,7 +222,7 @@ export default function SchedulerDashboard() {
   // ── Render ──────────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-7">
 
       {/* ── Page header ── */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

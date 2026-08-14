@@ -16,12 +16,8 @@ export function Panel({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] as const }}
-      className={cn("relative flex flex-col overflow-hidden rounded-2xl", className)}
-      style={!transparent ? {
-        background: "var(--card)",
-        border: "1px solid oklch(0.52 0.15 255 / 0.15)",
-        boxShadow: "0 1px 0 oklch(1 0 0 / 0.05), 0 2px 8px oklch(0 0 0 / 0.06)",
-      } : undefined}
+      className={cn("relative flex flex-col overflow-hidden rounded-2xl border border-border/70 bg-card shadow-sm", className)}
+      style={transparent ? undefined : undefined}
     >
       {/* optional accent glow line */}
       {glow && (

@@ -188,7 +188,7 @@ function getInitials(name: string): string {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    NavList — renders role-filtered nav items with gradient active pill
-───────────────────────────────────────────────────────────────────────────── */
+─────────────────────────────────────────��─────────────────────────────────── */
 function NavList({
   items,
   pathname,
@@ -223,7 +223,7 @@ function NavList({
                 className="absolute inset-0 rounded-xl"
                 style={{
                   background:
-                    'linear-gradient(135deg, var(--color-primary, hsl(221,90%,57%)), color-mix(in oklab, var(--color-primary, hsl(221,90%,57%)) 70%, hsl(260,80%,60%)))',
+                    'linear-gradient(135deg, var(--color-primary, hsl(221,90%,57%)), color-mix(in oklab, var(--color-primary, hsl(221,90%,57%)) 70%, hsl(199,85%,62%)))',
                   boxShadow:
                     '0 4px 14px color-mix(in oklab, var(--color-primary, hsl(221,90%,57%)) 35%, transparent)',
                 }}

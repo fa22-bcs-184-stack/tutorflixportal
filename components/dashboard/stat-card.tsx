@@ -16,14 +16,10 @@ export function StatCard({
       whileHover={{ y: -3, scale: 1.01 }}
       transition={{ type: "spring", stiffness: 380, damping: 24 }}
       className={cn(
-        "group relative flex flex-col gap-4 overflow-hidden rounded-2xl p-5 cursor-default",
+        "group relative flex flex-col gap-4 overflow-hidden rounded-2xl border border-border/70 bg-card p-5 shadow-sm cursor-default",
         className,
       )}
-      style={{
-        background: "var(--card)",
-        boxShadow: "0 1px 0 oklch(1 0 0 / 0.05), 0 2px 8px oklch(0 0 0 / 0.06)",
-        border: "1px solid oklch(0.52 0.15 255 / 0.15)",
-      }}
+      style={undefined}
     >
       {/* Corner ambient glow */}
       <div
