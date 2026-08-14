@@ -18,7 +18,6 @@ import {
   Target,
   TrendingUp,
   Activity,
-  UserCheck,
 } from 'lucide-react';
 import { StatCard } from '@/components/dashboard/stat-card';
 import { Panel } from '@/components/dashboard/panel';
@@ -54,25 +53,6 @@ const FUNNEL_STAGES: Array<{ key: LeadItem['status']; label: string; color: stri
   { key: 'TRIAL_SCHEDULED', label: 'Trial Booked',  color: 'var(--color-success)' },
   { key: 'TRIAL_DONE',      label: 'Trial Done',    color: 'var(--color-chart-2)' },
   { key: 'CONVERTED',       label: 'Converted',     color: 'var(--color-chart-3)' },
-];
-
-// ── Quick actions ─────────────────────────────────────────────────────────────
-
-const QUICK_ACTIONS = [
-  {
-    label: 'Lead Kanban',
-    desc: 'Drag leads through all pipeline stages',
-    href: '/scheduler/leads',
-    Icon: Users,
-    accent: 'chart-1',
-  },
-  {
-    label: 'Trials Manager',
-    desc: 'Meeting links, notifications & trial status',
-    href: '/scheduler/trials',
-    Icon: Calendar,
-    accent: 'chart-3',
-  },
 ];
 
 // ── Initials helper ───────────────────────────────────────────────────────────
@@ -205,6 +185,20 @@ export default function SchedulerDashboard() {
   const conversionRate = counts.total > 0
     ? Math.round((counts.converted / counts.total) * 100)
     : 0;
+
+  const stageHealth = useMemo(() => {
+    const cutoff = Date.now() - 3 * 24 * 60 * 60 * 1000;
+    return FUNNEL_STAGES.map((stage) => {
+      const stageLeads = leads.filter((lead) => lead.status === stage.key);
+      const stuckLeads = stageLeads.filter((lead) => new Date(lead.updatedAt || lead.createdAt).getTime() < cutoff);
+      return {
+        ...stage,
+        count: stageLeads.length,
+        stuck: stuckLeads.length,
+        oldest: stuckLeads.sort((a, b) => new Date(a.updatedAt || a.createdAt).getTime() - new Date(b.updatedAt || b.createdAt).getTime())[0],
+      };
+    }).filter((stage) => stage.count > 0 || stage.stuck > 0);
+  }, [leads]);
 
   // ── Handlers ────────────────────────────────────────────────────────────────
 
@@ -429,63 +423,45 @@ export default function SchedulerDashboard() {
           )}
         </Panel>
 
-        {/* Quick actions — 1/3 width */}
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold tracking-tight text-foreground">
-              Quick actions
-            </h3>
-          </div>
+        {/* Stage health — 1/3 width */}
+        <Panel
+          title="Stage health"
+          description="Where the pipeline is getting stuck"
+          className="lg:col-span-1"
+          action={<Badge variant="outline" className="gap-1.5 border-warning/30 bg-warning-subtle text-warning"><span className="size-1.5 rounded-full bg-warning" />3+ days</Badge>}
+        >
           <div className="flex flex-col gap-3">
-            {QUICK_ACTIONS.map(({ label, desc, href, Icon, accent }) => (
-              <Link key={href} href={href}>
-                <div className="group flex items-start gap-4 rounded-2xl border border-border/70 bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:bg-primary/[0.025] hover:shadow-lg cursor-pointer">
-                  <div
-                    className="mt-0.5 flex size-10 shrink-0 items-center justify-center rounded-xl transition-all duration-200 group-hover:scale-105"
-                    style={{
-                      background: `color-mix(in oklch, var(--color-${accent}) 14%, transparent)`,
-                      color: `var(--color-${accent})`,
-                    }}
-                  >
-                    <Icon className="size-5" />
+            {stageHealth.length === 0 ? (
+              <div className="rounded-xl border border-dashed border-border p-5 text-center">
+                <CheckCircle2 className="mx-auto size-5 text-success" />
+                <p className="mt-2 text-sm font-medium text-foreground">Nothing is stuck</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Every active lead has moved within the last three days.</p>
+              </div>
+            ) : stageHealth.map((stage) => {
+              const isStuck = stage.stuck > 0;
+              return (
+                <div key={stage.key} className={`flex items-center gap-3 rounded-xl border p-3 ${isStuck ? 'border-warning/25 bg-warning-subtle/45' : 'border-border/60 bg-muted/25'}`}>
+                  <div className="flex size-9 shrink-0 items-center justify-center rounded-lg" style={{ background: `color-mix(in oklch, ${stage.color} 14%, transparent)`, color: stage.color }}>
+                    {isStuck ? <AlertTriangle className="size-4" /> : <Activity className="size-4" />}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-sm font-semibold text-foreground">{label}</p>
-                    <p className="mt-0.5 text-xs text-muted-foreground leading-relaxed">{desc}</p>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="truncate text-sm font-semibold text-foreground">{stage.label}</p>
+                      <span className="text-xs font-semibold text-muted-foreground">{stage.count} total</span>
+                    </div>
+                    <p className={`mt-0.5 text-xs ${isStuck ? 'font-medium text-warning' : 'text-muted-foreground'}`}>
+                      {isStuck ? `${stage.stuck} ${stage.stuck === 1 ? 'lead' : 'leads'} stuck` : 'Moving normally'}
+                    </p>
                   </div>
-                  <ChevronRight className="mt-0.5 size-4 shrink-0 text-muted-foreground/40 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-muted-foreground" />
                 </div>
-              </Link>
-            ))}
-
-            {/* Conversion stat mini-card */}
-            <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-card p-4">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-4 -top-4 size-20 rounded-full opacity-[0.08] blur-xl"
-                style={{ background: 'var(--color-chart-2)' }}
-              />
-              <div className="relative flex items-center gap-3">
-                <div
-                  className="flex size-10 shrink-0 items-center justify-center rounded-xl"
-                  style={{
-                    background: 'color-mix(in oklch, var(--color-chart-2) 14%, transparent)',
-                    color: 'var(--color-chart-2)',
-                  }}
-                >
-                  <UserCheck className="size-5" />
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-muted-foreground">This cycle</p>
-                  <p className="text-xl font-bold tracking-tight text-foreground">
-                    {counts.converted}{' '}
-                    <span className="text-sm font-normal text-muted-foreground">converted</span>
-                  </p>
-                </div>
-              </div>
+              );
+            })}
+            <div className="flex items-center justify-between border-t border-border/60 pt-3">
+              <span className="text-xs text-muted-foreground">Blocked leads</span>
+              <span className="text-sm font-bold text-warning">{stageHealth.reduce((total, stage) => total + stage.stuck, 0)}</span>
             </div>
           </div>
-        </div>
+        </Panel>
       </div>
 
       {/* ── Today's leads + recent activity ── */}
