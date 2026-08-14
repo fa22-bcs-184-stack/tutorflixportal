@@ -356,7 +356,7 @@ export default function SchedulerDashboard() {
       </motion.div>
 
       {/* ── Pipeline overview ── */}
-      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(320px,0.85fr)]">
+      <div className="grid grid-cols-1 items-stretch gap-5 lg:grid-cols-[minmax(0,1.55fr)_minmax(320px,0.85fr)]">
 
         {/* Funnel bar — primary column */}
         <Panel
@@ -426,7 +426,7 @@ export default function SchedulerDashboard() {
         <Panel
           title="Stage health"
           description="Where the pipeline is getting stuck"
-          className="lg:col-span-1"
+          className="h-full lg:col-span-1"
           action={<Badge variant="outline" className="gap-1.5 border-warning/30 bg-warning-subtle text-warning"><span className="size-1.5 rounded-full bg-warning" />3+ days</Badge>}
         >
           <div className="flex flex-col gap-3">
